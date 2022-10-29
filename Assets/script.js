@@ -19,6 +19,7 @@ function promptUserForPasswordOptions() {
 var passwordLength = parseInt(
   prompt("How many characters will your password be?"),
   10)
+  if (passwordLength < 8 )
 var hasSpecChars = confirm(
   "click ok to include spec chars in your password")
 var hasUpperCase = confirm(
@@ -38,6 +39,8 @@ var passwordChoices = {
   return passwordChoices
 }
 
+//ensuring the user selects an allowed character limit
+if (password.length < 8)
 
 // function for getting a random array element
 function getRandomElement(arr) {
