@@ -1,8 +1,17 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
-
-
-
+// funct o generate password with user choices
+// function generatePassword() {
+//   choices = promptUserForPasswordOptions()
+// }
+// Write password to the #password input
+function writePassword() {
+  var password = promptUserForPasswordOptions();
+  var passwordText = document.querySelector("#password");
+  passwordText.value = password;
+}
+// Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
 
 
 // added variables for the password generation
@@ -10,58 +19,51 @@ var lowerCaseArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 
 var upperCaseArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 var numbersArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 var specialArr = ['!', '@', '#', '$', '*', '%']
-var password = " ";
+var allPossibleChar = [];
+var finalPassword = [];
 
 
-
-// function to prompt user for their password options
 function promptUserForPasswordOptions() {
-var passwordLength = parseInt(
-  prompt("How many characters will your password be?"),
-  10)
-  if (passwordLength < 8 )
-var hasSpecChars = confirm(
-  "click ok to include spec chars in your password")
-var hasUpperCase = confirm(
-  "Click ok to include upper case characters")
-var hasLowwerCase = confirm(
-  "Click ok to include Lower case characters")
-var hasNum = confirm(
-  "Click ok to include number characters")
+  var passwordLength = parseInt(
+    prompt("How many characters will your password be?"),
+    10)
+      if (passwordLength < 8 || passwordLength > 128) {
+        alert("Incorrect! Please select a value between 8 and 128")
+        return promptUserForPasswordOptions()
+      }
+  var hasSpecChars = confirm(
+      "Click OK to include SPECIAL characters in your password!")
+  var hasUpperCase = confirm(
+      "Click OK to include UPPER CASE characters!")
+  var hasLowwerCase = confirm(
+      "Click OK to include LOWER CASE characters!")
+  var hasNumbers = confirm(
+    "Click OK to include NUMBERS!"
+  )
+  if(hasSpecChars){
+      allPossibleChar = allPossibleChar.concat(specialArr)
+  }
+  if(hasUpperCase){
+      allPossibleChar = allPossibleChar.concat(lowerCaseArr)
+  }
+  if(hasLowwerCase){
+      allPossibleChar = allPossibleChar.concat(upperCaseArr)
+  }
+  if(hasNumbers){
+      allPossibleChar = allPossibleChar.concat(numbersArr)
+  }
+  if (hasSpecChars === false && hasUpperCase === false && hasLowwerCase === false && hasNumbers === false){
+    alert("Caution! Must select atleast one array of characters!")
+    return promptUserForPasswordOptions()
+  }
+    for(var i=0; i < passwordLength; i++)
+    {
+        var randomIndex = Math.floor(Math.random() * allPossibleChar.length)
+        finalPassword = finalPassword.concat(allPossibleChar[randomIndex])
+        console.log(finalPassword)
 
-var passwordChoices = {
-  passwordLength: passwordLength,
-  hasSpecChars: hasSpecChars,
-  hasUpperCase: hasUpperCase,
-  hasLowwerCase: hasLowwerCase,
-  hasNum: hasNum,
-}
-  return passwordChoices
-}
-
-//ensuring the user selects an allowed character limit
-if (password.length < 8)
-
-// function for getting a random array element
-function getRandomElement(arr) {
-  var randomIndex = Math.floor(Math.random() * arr.length)
-  var randomElement = arr[randomIndex]
-
-  return randomElement
-}
-
-// funct o generate password with user choices
-function generatePassword() {
- var choices = promptUserForPasswordOptions()
-
-}
-
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
-  passwordText.value = password;
+      }
+      return finalPassword.join("")
 }
 
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
+
